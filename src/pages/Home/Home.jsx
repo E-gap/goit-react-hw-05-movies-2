@@ -9,14 +9,14 @@ const Home = ({ movies }) => {
     <div>
       <p className={css.listTitle}>Trending today</p>
       <ul className={css.filmList}>
-        {movies.map(movie => (
-          <li key={movie.id} className={css.listItem}>
+        {movies.map(({ id, title, name }) => (
+          <li key={id} className={css.listItem}>
             <Link
-              to={`movies/${movie.id}`}
+              to={`movies/${id}`}
               className={css.link}
               state={{ from: location }}
             >
-              {movie.title ?? movie.name};
+              {title ?? name};
             </Link>
           </li>
         ))}

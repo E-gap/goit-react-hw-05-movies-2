@@ -30,14 +30,10 @@ const Cast = () => {
   return (
     <div>
       <ul className={css.castList}>
-        {credits.map(credit => (
-          <li key={credit.id}>
+        {credits.map(({ id, profile_path, name, character }) => (
+          <li key={id}>
             <img
-              src={
-                credit.profile_path
-                  ? `${basic}${credit.profile_path}`
-                  : noPosterImg
-              }
+              src={profile_path ? `${basic}${profile_path}` : noPosterImg}
               className={css.profile}
               alt="actor face"
             />
@@ -49,10 +45,10 @@ const Cast = () => {
                   marginRight: '10px',
                 }}
               />
-              {credit.name}
+              {name}
             </p>
 
-            <p className={css.text}>Character: {credit.character}</p>
+            <p className={css.text}>Character: {character}</p>
           </li>
         ))}
       </ul>

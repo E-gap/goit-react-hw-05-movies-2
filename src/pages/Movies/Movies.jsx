@@ -51,15 +51,14 @@ const Movies = () => {
       </form>
       <ul className={css.filmList}>
         {movies.length > 0 && !error ? (
-          movies.map(movie => (
-            <li key={movie.id} className={css.listItem}>
+          movies.map(({ id, name, title }) => (
+            <li key={id} className={css.listItem}>
               <Link
-                to={`${movie.id}`}
+                to={`${id}`}
                 className={css.link}
-                id={movie.id}
                 state={{ from: location }}
               >
-                {movie.title ?? movie.name}
+                {title ?? name}
               </Link>
             </li>
           ))

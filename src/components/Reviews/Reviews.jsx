@@ -25,10 +25,10 @@ const Reviews = () => {
     <div>
       <ul className={css.reviewList}>
         {reviews.length > 0 ? (
-          reviews.map(review => (
-            <li key={review.id}>
-              <p className={css.author}>{`Author: ${review.author}`}</p>
-              <p className={css.text}>{review.content}</p>
+          reviews.map(({ id, author, content }) => (
+            <li key={id}>
+              <p className={css.author}>{`Author: ${author}`}</p>
+              <p className={css.text}>{content}</p>
             </li>
           ))
         ) : (
