@@ -1,5 +1,5 @@
 import css from './Movies.module.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { key } from '../../services/data';
 
@@ -28,12 +28,6 @@ const Movies = () => {
       });
     reset();
   };
-
-  useEffect(() => {
-    if (query !== null) {
-      searchMovieQuery();
-    }
-  }, []);
 
   const submitSearch = event => {
     event.preventDefault();
