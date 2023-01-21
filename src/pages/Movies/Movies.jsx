@@ -33,7 +33,7 @@ const Movies = () => {
     if (query !== null) {
       searchMovieQuery();
     }
-  }, [query]);
+  }, []);
 
   const submitSearch = event => {
     event.preventDefault();
