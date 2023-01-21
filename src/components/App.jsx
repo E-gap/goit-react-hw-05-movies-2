@@ -1,9 +1,9 @@
-import { useState, useEffect, lazy } from 'react';
+/* import { useState, useEffect, lazy } from 'react';
 import Home from '../pages/Home/Home';
 import { Route, Routes } from 'react-router-dom';
 import Layout from './Layout/Layout';
 import Movies from '../pages/Movies/Movies';
-import { key } from '../services/data';
+import { key } from '../services/data'; */
 
 const MovieDetails = lazy(() => import('../pages/MovieDetails/MovieDetails'));
 const Cast = lazy(() => import('./Cast/Cast'));
