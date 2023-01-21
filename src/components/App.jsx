@@ -1,4 +1,4 @@
-/* import { useState, useEffect, lazy } from 'react';
+import { useState, useEffect, lazy } from 'react';
 import Home from '../pages/Home/Home';
 import { Route, Routes } from 'react-router-dom';
 import Layout from './Layout/Layout';
@@ -58,13 +58,13 @@ export const App = () => {
       </Routes>
     </div>
   );
-}; */
+};
 
 //внизу код базовый. если без импорта - то проект деплоится, если добавить импорт, то деплой не срабатывает
 
 //import { Route, Routes } from 'react-router-dom';
 
-export const App = () => {
+/* export const App = () => {
   return (
     <div
       style={{
@@ -78,4 +78,4 @@ export const App = () => {
       React homework template
     </div>
   );
-};
+}; */
