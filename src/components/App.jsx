@@ -1,6 +1,3 @@
-import Home from '../pages/Home/Home';
-import Layout from './Layout/Layout';
-import Movies from '../pages/Movies/Movies';
 import { key } from '../services/data';
 
 export const App = () => {
