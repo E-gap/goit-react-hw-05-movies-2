@@ -10,9 +10,16 @@ const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState('');
 
+  const handler = event => {
+    if (event.target.value.trim()) {
+      document.querySelector('button').removeAttribute('disabled');
+      console.log('again');
+    }
+  };
+
   const submitSearch = event => {
     event.preventDefault();
-    setQuery(event.target.elements.query.value);
+    setQuery(event.target.elements.query.value.trim());
   };
 
   console.log(searchParams);
@@ -22,6 +29,7 @@ const Movies = () => {
 
     const reset = () => {
       document.querySelector('form').reset();
+      document.querySelector('button').setAttribute('disabled', true);
     };
 
     const searchMovieQuery = () => {
@@ -47,8 +55,8 @@ const Movies = () => {
   return (
     <div>
       <form onSubmit={submitSearch}>
-        <input className={css.input} name="query"></input>
-        <button className={css.buttonSearch} type="submit">
+        <input className={css.input} name="query" onChange={handler}></input>
+        <button className={css.buttonSearch} type="submit" disabled>
           Search
         </button>
       </form>
