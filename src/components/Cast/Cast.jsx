@@ -30,8 +30,8 @@ const Cast = () => {
   return (
     <div>
       <ul className={css.castList}>
-        {credits.map(({ id, profile_path, name, character }) => (
-          <li key={id}>
+        {credits.map(({ cast_id, profile_path, name, character }) => (
+          <li key={cast_id}>
             <img
               src={profile_path ? `${basic}${profile_path}` : noPosterImg}
               className={css.profile}

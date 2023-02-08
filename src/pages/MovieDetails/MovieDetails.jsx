@@ -11,18 +11,18 @@ const MoviesDetails = () => {
   const location = useLocation();
 
   useEffect(() => {
-    searchMovieDetails();
-  }, []);
+    const searchMovieDetails = () => {
+      fetch(
+        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${key}&language=eu-US`
+      )
+        .then(resp => resp.json())
+        .then(resp => {
+          setDetails(resp);
+        });
+    };
 
-  const searchMovieDetails = () => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}?api_key=${key}&language=eu-US`
-    )
-      .then(resp => resp.json())
-      .then(resp => {
-        setDetails(resp);
-      });
-  };
+    searchMovieDetails();
+  }, [movieId]);
 
   if (Object.keys(details).length === 0) {
     return;
@@ -74,12 +74,20 @@ const MoviesDetails = () => {
             <p className={css.text}>Additional information</p>
             <ul className={css.listLink}>
               <li>
-                <Link to="cast" className={css.link}>
+                <Link
+                  to="cast"
+                  state={{ from: backLinkHref }}
+                  className={css.link}
+                >
                   Cast
                 </Link>
               </li>
               <li>
-                <Link to="reviews" className={css.link}>
+                <Link
+                  to="reviews"
+                  state={{ from: backLinkHref }}
+                  className={css.link}
+                >
                   Reviews
                 </Link>
               </li>

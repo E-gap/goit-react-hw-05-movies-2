@@ -12,28 +12,28 @@ const Reviews = lazy(() => import('./Reviews/Reviews'));
 export const App = () => {
   const [movies, setMovies] = useState([]);
 
-  const searchTrendingMovies = () => {
-    try {
-      fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${key}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(Response.status);
-          }
-          return response.json();
-        })
-        .then(resp => {
-          setMovies(resp.results);
-        });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   useEffect(() => {
+    const searchTrendingMovies = () => {
+      try {
+        fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${key}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(Response.status);
+            }
+            return response.json();
+          })
+          .then(resp => {
+            setMovies(resp.results);
+          });
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
     if (movies.length === 0) {
       searchTrendingMovies();
     }
-  }, [movies]);
+  }, [movies.length]);
 
   return (
     <div
