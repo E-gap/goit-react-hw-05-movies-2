@@ -15,6 +15,8 @@ const Movies = () => {
     setQuery(event.target.elements.query.value);
   };
 
+  console.log(searchParams);
+
   useEffect(() => {
     setSearchParams(query !== '' ? { query: query } : {});
 
