@@ -13,7 +13,8 @@ const Movies = () => {
   const handler = event => {
     if (event.target.value.trim()) {
       document.querySelector('button').removeAttribute('disabled');
-      console.log('again');
+    } else {
+      document.querySelector('button').setAttribute('disabled', true);
     }
   };
 
