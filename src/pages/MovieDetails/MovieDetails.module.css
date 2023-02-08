@@ -9,6 +9,8 @@
 
 .image {
   margin-right: 30px;
+  width: 500px;
+  height: 750px;
 }
 
 .score {
@@ -23,9 +25,6 @@
 
 .text {
   font-size: 25px;
-}
-
-.linkList {
 }
 
 .listLink {
