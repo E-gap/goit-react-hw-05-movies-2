@@ -1,5 +1,5 @@
 import css from './Movies.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { key } from '../../services/data';
 
@@ -8,43 +8,44 @@ const Movies = () => {
   const [movies, setMovies] = useState([]);
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get('query');
-
-  const changeQuery = value => {
-    setSearchParams(value !== '' ? { query: value } : {});
-  };
-
-  const searchMovieQuery = () => {
-    setError('');
-    fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${key}&query=${query}&language=en-US&page=1&include_adult=false`
-    )
-      .then(resp => resp.json())
-      .then(resp => {
-        if (resp.results.length === 0) {
-          setError('Sorry, there are no movies for your request');
-        }
-        setMovies(resp.results);
-      });
-    reset();
-  };
+  const [query, setQuery] = useState('');
 
   const submitSearch = event => {
     event.preventDefault();
-    searchMovieQuery();
+    setQuery(event.target.elements.query.value);
   };
 
-  const reset = () => {
-    document.querySelector('form').reset();
-  };
+  useEffect(() => {
+    setSearchParams(query !== '' ? { query: query } : {});
+
+    const reset = () => {
+      document.querySelector('form').reset();
+    };
+
+    const searchMovieQuery = () => {
+      setError('');
+      fetch(
+        `https://api.themoviedb.org/3/search/movie?api_key=${key}&query=${query}&language=en-US&page=1&include_adult=false`
+      )
+        .then(resp => resp.json())
+        .then(resp => {
+          if (resp.results.length === 0) {
+            setError('Sorry, there are no movies for your request');
+          }
+          setMovies(resp.results);
+        });
+      reset();
+    };
+
+    if (query) {
+      searchMovieQuery();
+    }
+  }, [query, setSearchParams]);
 
   return (
     <div>
-      <form onSubmit={submitSearch} className={css.formaa}>
-        <input
-          className={css.input}
-          onChange={event => changeQuery(event.target.value)}
-        ></input>
+      <form onSubmit={submitSearch}>
+        <input className={css.input} name="query"></input>
         <button className={css.buttonSearch} type="submit">
           Search
         </button>
