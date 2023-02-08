@@ -7,19 +7,18 @@ const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const { movieId } = useParams();
 
-  const searchMovieReviews = () => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${key}&language=en-US&page=1`
-    )
-      .then(resp => resp.json())
-      .then(resp => {
-        setReviews(resp.results);
-      });
-  };
-
   useEffect(() => {
+    const searchMovieReviews = () => {
+      fetch(
+        `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${key}&language=en-US&page=1`
+      )
+        .then(resp => resp.json())
+        .then(resp => {
+          setReviews(resp.results);
+        });
+    };
     searchMovieReviews();
-  }, []);
+  }, [movieId]);
 
   return (
     <div>
