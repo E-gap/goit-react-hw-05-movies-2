@@ -34,23 +34,25 @@ const Movies = () => {
       document.querySelector('button').setAttribute('disabled', true);
     };
 
-    const searchMovieQuery = () => {
+    const searchMovieQuery = async () => {
       setError('');
-      fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${key}&query=${query}&language=en-US&page=1&include_adult=false`
-      )
-        .then(resp => resp.json())
-        .then(resp => {
-          if (resp.results.length === 0) {
-            setError('Sorry, there are no movies for your request');
-          }
-          setMovies(resp.results);
-        });
-      reset();
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/search/movie?api_key=${key}&query=${query}&language=en-US&page=1&include_adult=false`
+        );
+        const data = await response.json();
+        if (data.results.length === 0) {
+          setError('Sorry, there are no movies for your request');
+        }
+        setMovies(data.results);
+      } catch (error) {
+        setError('Oops, something goes wrong');
+      }
     };
 
     if (query) {
       searchMovieQuery();
+      reset();
     }
   }, [query, setSearchParams]);
 

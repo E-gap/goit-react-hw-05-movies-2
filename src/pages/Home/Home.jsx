@@ -5,22 +5,20 @@ import css from './Home.module.css';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    const searchTrendingMovies = () => {
+    const searchTrendingMovies = async () => {
+      setError('');
       try {
-        fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${key}`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(Response.status);
-            }
-            return response.json();
-          })
-          .then(resp => {
-            setMovies(resp.results);
-          });
+        const response = await fetch(
+          `https://api.themoviedb.org/3/trending/all/day?api_key=${key}`
+        );
+
+        const data = await response.json();
+        setMovies(data.results);
       } catch (error) {
-        console.log(error.message);
+        setError('Oops, something goes wrong');
       }
     };
 
@@ -29,7 +27,7 @@ const Home = () => {
     }
   }, [movies.length]);
 
-  return (
+  return error === '' ? (
     <div>
       <p className={css.listTitle}>Trending today</p>
       <ul className={css.filmList}>
@@ -38,6 +36,8 @@ const Home = () => {
         ))}
       </ul>
     </div>
+  ) : (
+    <p>{error}</p>
   );
 };
 
