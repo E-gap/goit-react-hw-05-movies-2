@@ -6,19 +6,23 @@ import { FaLongArrowAltLeft } from 'react-icons/fa';
 import { key } from '../../services/data';
 
 const MoviesDetails = () => {
+  const [error, setError] = useState('');
   const [details, setDetails] = useState({});
   const { movieId } = useParams();
   const location = useLocation();
 
   useEffect(() => {
-    const searchMovieDetails = () => {
-      fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${key}&language=eu-US`
-      )
-        .then(resp => resp.json())
-        .then(resp => {
-          setDetails(resp);
-        });
+    const searchMovieDetails = async () => {
+      setError('');
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/${movieId}?api_key=${key}&language=eu-US`
+        );
+        const data = await response.json();
+        setDetails(data);
+      } catch (error) {
+        setError('Oops, something goes wrong');
+      }
     };
 
     searchMovieDetails();
@@ -38,7 +42,7 @@ const MoviesDetails = () => {
 
   const backLinkHref = location.state?.from ?? '/';
 
-  return (
+  return error === '' ? (
     <div>
       <Link to={backLinkHref} className={css.linkGoBack}>
         <FaLongArrowAltLeft style={{ marginRight: '10px' }} /> Go back
@@ -88,6 +92,8 @@ const MoviesDetails = () => {
         <Outlet />
       </Suspense>
     </div>
+  ) : (
+    <p>{error}</p>
   );
 };
 
