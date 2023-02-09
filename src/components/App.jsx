@@ -60,22 +60,4 @@ export const App = () => {
   );
 };
 
-//внизу код базовый. если без импорта - то проект деплоится, если добавить импорт, то деплой не срабатывает
 
-//import { Route, Routes } from 'react-router-dom';
-
-/* export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101',
-      }}
-    >
-      React homework template
-    </div>
-  );
-}; */

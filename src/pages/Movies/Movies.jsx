@@ -1,16 +1,19 @@
-import css from './Movies.module.css';
 import { useState, useEffect } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { key } from '../../services/data';
+import OneMovieLi from '../../components/OneMovieLi/OneMovieLi';
+import css from './Movies.module.css';
 
 const Movies = () => {
   const [error, setError] = useState('');
   const [movies, setMovies] = useState([]);
-  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(() => {
+    const params = searchParams.get('query');
+    return params ? params : '';
+  });
 
-  const handler = event => {
+  const handlerInput = event => {
     if (event.target.value.trim()) {
       document.querySelector('button').removeAttribute('disabled');
     } else {
@@ -22,8 +25,6 @@ const Movies = () => {
     event.preventDefault();
     setQuery(event.target.elements.query.value.trim());
   };
-
-  console.log(searchParams);
 
   useEffect(() => {
     setSearchParams(query !== '' ? { query: query } : {});
@@ -56,7 +57,11 @@ const Movies = () => {
   return (
     <div>
       <form onSubmit={submitSearch}>
-        <input className={css.input} name="query" onChange={handler}></input>
+        <input
+          className={css.input}
+          name="query"
+          onChange={handlerInput}
+        ></input>
         <button className={css.buttonSearch} type="submit" disabled>
           Search
         </button>
@@ -64,15 +69,7 @@ const Movies = () => {
       <ul className={css.filmList}>
         {movies.length > 0 && !error ? (
           movies.map(({ id, name, title }) => (
-            <li key={id} className={css.listItem}>
-              <Link
-                to={`${id}`}
-                className={css.link}
-                state={{ from: location }}
-              >
-                {title ?? name}
-              </Link>
-            </li>
+            <OneMovieLi key={id} name={name} title={title} to={`${id}`} />
           ))
         ) : (
           <p>{error}</p>

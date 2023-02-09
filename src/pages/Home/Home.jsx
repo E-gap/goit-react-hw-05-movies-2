@@ -1,24 +1,14 @@
-import css from './Home.module.css';
-import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import OneMovieLi from '../../components/OneMovieLi/OneMovieLi';
+import css from './Home.module.css';
 
 const Home = ({ movies }) => {
-  const location = useLocation();
-
   return (
     <div>
       <p className={css.listTitle}>Trending today</p>
       <ul className={css.filmList}>
         {movies.map(({ id, title, name }) => (
-          <li key={id} className={css.listItem}>
-            <Link
-              to={`movies/${id}`}
-              className={css.link}
-              state={{ from: location }}
-            >
-              {title ?? name};
-            </Link>
-          </li>
+          <OneMovieLi key={id} name={name} title={title} to={`movies/${id}`} />
         ))}
       </ul>
     </div>
