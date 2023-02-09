@@ -4,23 +4,28 @@ import { useParams } from 'react-router-dom';
 import { key } from '../../services/data';
 
 const Reviews = () => {
+  const [error, setError] = useState('');
   const [reviews, setReviews] = useState([]);
   const { movieId } = useParams();
 
   useEffect(() => {
-    const searchMovieReviews = () => {
-      fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${key}&language=en-US&page=1`
-      )
-        .then(resp => resp.json())
-        .then(resp => {
-          setReviews(resp.results);
-        });
+    const searchMovieReviews = async () => {
+      setError('');
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${key}&language=en-US&page=1`
+        );
+        const data = await response.json();
+        setReviews(data.results);
+      } catch (error) {
+        setError('Oops, something goes wrong');
+      }
     };
+
     searchMovieReviews();
   }, [movieId]);
 
-  return (
+  return error === '' ? (
     <div>
       <ul className={css.reviewList}>
         {reviews.length > 0 ? (
@@ -35,6 +40,8 @@ const Reviews = () => {
         )}
       </ul>
     </div>
+  ) : (
+    <p>{error}</p>
   );
 };
 

@@ -5,18 +5,22 @@ import { useParams } from 'react-router-dom';
 import { key } from '../../services/data';
 
 const Cast = () => {
+  const [error, setError] = useState('');
   const [credits, setCredits] = useState([]);
   const { movieId } = useParams();
 
   useEffect(() => {
-    const searchMovieCredits = () => {
-      fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${key}&language=en-US`
-      )
-        .then(resp => resp.json())
-        .then(resp => {
-          setCredits(resp.cast);
-        });
+    const searchMovieCredits = async () => {
+      setError('');
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${key}&language=en-US`
+        );
+        const data = await response.json();
+        setCredits(data.cast);
+      } catch (error) {
+        setError('Oops, something goes wrong');
+      }
     };
 
     searchMovieCredits();
@@ -26,7 +30,7 @@ const Cast = () => {
   const noPosterImg =
     'https://freedesignfile.com/upload/2018/11/Characters-in-film-design-elements-background-vector-graphic-715.jpg';
 
-  return (
+  return error === '' ? (
     <div>
       <ul className={css.castList}>
         {credits.map(({ cast_id, profile_path, name, character }) => (
@@ -52,6 +56,8 @@ const Cast = () => {
         ))}
       </ul>
     </div>
+  ) : (
+    <p>{error}</p>
   );
 };
 
