@@ -1,8 +1,34 @@
-import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import OneMovieLi from '../../components/OneMovieLi/OneMovieLi';
+import { key } from '../../services/data';
 import css from './Home.module.css';
 
-const Home = ({ movies }) => {
+const Home = () => {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    const searchTrendingMovies = () => {
+      try {
+        fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${key}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(Response.status);
+            }
+            return response.json();
+          })
+          .then(resp => {
+            setMovies(resp.results);
+          });
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    if (movies.length === 0) {
+      searchTrendingMovies();
+    }
+  }, [movies.length]);
+
   return (
     <div>
       <p className={css.listTitle}>Trending today</p>
@@ -16,13 +42,3 @@ const Home = ({ movies }) => {
 };
 
 export default Home;
-
-Home.propTypes = {
-  movies: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string,
-      name: PropTypes.string,
-    })
-  ),
-};
